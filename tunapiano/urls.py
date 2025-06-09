@@ -14,8 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from tunaapi.views import ArtistViewSet, GenreViewSet, SongViewSet, SongGenreViewSet
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'artists', ArtistViewSet, 'artist')
+router.register(r'genres', GenreViewSet, 'genre')
+router.register(r'songs', SongViewSet, 'song')
+router.register(r'songgenres', SongGenreViewSet, 'songgenre')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
 ]
